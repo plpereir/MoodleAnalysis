@@ -1,0 +1,11 @@
+#Author: Pedro Luiz da Silva Pereira
+#Position: Developer Java Full Stack Sr
+#Proposal: this file is used when starting update deploy at IBM Cloud DevOps,
+#to consult this App access link: 
+---
+applications:
+ - name: MoodleAnalytics
+   random-route: true
+   path: target/MoodleAnalytics.war
+   memory: 128M
+   instances: 1
