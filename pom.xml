@@ -39,5 +39,15 @@
     <defaultGoal>install</defaultGoal>
     <!-- Source directory configuration -->
     <sourceDirectory>src</sourceDirectory>
+  <plugins>
+  <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-war-plugin</artifactId>
+    <version>2.6</version>
+    <configuration>
+      <failOnMissingWebXml>false</failOnMissingWebXml>
+    </configuration>
+  </plugin>
+  </plugins>
   </build>
 </project>
