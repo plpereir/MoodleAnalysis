@@ -36,18 +36,6 @@ public class DAO {
 	private static Properties prop = new Properties();
 
 	/**
-	 * this is the constructor class
-	 */
-	public DAO() {
-
-	}
-
-	/**
-	 * this attribute return connection
-	 */
-	public static Boolean Status = false;
-
-	/**
 	 * this is the connection method
 	 */
 	public static java.sql.Connection getConnectionMySQL() {
@@ -88,14 +76,6 @@ public class DAO {
 					
 					connection = DriverManager.getConnection(url,properties);
 
-					/**
-					 * Test connection
-					 */
-					if (connection != null) {
-						Status = true;
-					} else {
-						Status = false;
-					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -117,277 +97,66 @@ public class DAO {
 	/**
 	 * This method return connection status
 	 */
-	public boolean statusConnection() {
-		return Status;
+	public static boolean getStatusConnection(Connection conn) {
+		if (conn == null)
+		{
+			return false;
+		}else
+		{
+			return true;
+		}
+		
 	}
 
 	/**
 	 * This method closed the connection
 	 */
-	public static boolean closeConnection() {
+	public static boolean closeConnection(Connection conn) {
 		try {
-			DAO.getConnectionMySQL().close();
+			conn.close();
 			return true;
 		} catch (SQLException e) {
+			System.out.println("Error close Connection: "+e);
 			return false;
 		}
 	}
 
 	/**
-	 * this method get all tables from informed schema.
+	 * this method check if table exists
 	 */
-	public static ArrayList<InformationsSchema> getAllTables(Connection conn) {
-		ArrayList<InformationsSchema> listInformationsSchema = new ArrayList<InformationsSchema>();
-		DatabaseMetaData md;
-		try {
-			md = conn.getMetaData();
-			ResultSet rs = md.getTables(null, null, "%", null);
-			while (rs.next()) {
-				InformationsSchema is = new InformationsSchema();
-
-				try {
-					is.setSchema(rs.getString(1));
-					is.setObjectName(rs.getString(3));
-					is.setObjectType(rs.getString(4));
-					if (!(is.getSchema().equals("information_schema")) && (is.getObjectType().equals("TABLE"))) {
-						listInformationsSchema.add(is);
-					}
-				} catch (Exception ex) {
-
-				}
-
-			}
-			rs.close();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return listInformationsSchema;
-	}
-
-	/**
-	 * this method return all columns from table/schema
-	 * 
-	 * @throws SQLException
-	 */
-	public static List<String> getColumnsTables(Connection conn, String schema, String table) throws SQLException {
-
-		List<String> listColumns = new ArrayList<String>();
-		
-		conn = getConnectionMySQL();
-
-		// --- LISTING DATABASE COLUMN NAMES ---
-		DatabaseMetaData meta = conn.getMetaData();
-		ResultSet resultSet = meta.getColumns(schema, null, table, "%");
-		while (resultSet.next()) {
-			try {
-				listColumns.add(resultSet.getString(4));
-				//System.out.println("Column Name of table " + table + " = " + resultSet.getString(4));
-			} catch (Exception ex) {
-
-			}
-		}
-		return listColumns;
-	}
-
-	/**
-	 * this method return SQL Query from table/schema
-	 * 
-	 * @throws SQLException
-	 */
-	public static String getSQLQyery(Connection conn, String schema, String table) throws SQLException {
-		conn = getConnectionMySQL();
-
-		// --- LISTING DATABASE COLUMN NAMES ---
-		DatabaseMetaData meta = conn.getMetaData();
-		ResultSet resultSet = meta.getColumns(schema, null, table, "%");
-		String query = "SELECT ";
-
-		while (resultSet.next()) {
-			try {
-				query += table + "." + resultSet.getString(4);
-				query += ", ";
-			} catch (Exception ex) {
-			}
-		}
-		query += " FROM " + table + ";";
-		query = query.replace(",  FROM ", "  FROM ");
-		return query;
-	}
-
-	/**
-	 * This method return report informations about tables with data or without
-	 * data.
-	 */
-	public static boolean checkDataExistis(Connection conn, String schema, String table) {
-		try {
-			String sql = "SELECT count(*) as Qty FROM " + table;
-			Statement stm = conn.createStatement();
-			ResultSet resultado = stm.executeQuery(sql);
-			if (resultado != null && resultado.next()) {
-				//System.out.println(table+" - "+resultado.getString("Qty"));
-				if (resultado.getString("Qty").equals("0"))
-				{
-					return false;
-				} else {
-					System.out.println(table);
-					return true;
-				}
-			} else {
-				return false;
-			}
-		} catch (SQLException ex) {
-			System.out.println("Error checkData Existis: "+ex);
-			//ex.printStackTrace();
-			return false;
-		}
-
+	public static boolean tableExist(Connection conn, String tableName) throws SQLException {
+	    boolean tExists = false;
+	    try (ResultSet rs = conn.getMetaData().getTables(null, null, tableName, null)) {
+	        while (rs.next()) { 
+	            String tName = rs.getString("TABLE_NAME");
+	            if (tName != null && tName.equals(tableName)) {
+	                tExists = true;
+	                break;
+	            }
+	        }
+	    }
+	    return tExists;
 	}
 	
-	/**
-	 * this method create new Table
-	 */
-	private static void createTable( Connection conn,  String schema) {
-	    String myTableName = "Alter TABLE GlobalInformations ADD" 
-	            + " testecoluna BIGINT(10)";
-	    		
-	           // + "initials SMALLINT(4)," 
-	           // + "txt VARCHAR(25),"
-	           // + "agentDate DATE,"  
-	           // + "agentCount INT(64), "
-	           // + "PRIMARY KEY(idNo))";  
-	    try {
-	    	Statement stmt  = conn.createStatement();
-	        //This line has the issue
-	    	stmt.executeUpdate(myTableName);
-	        System.out.println("Table Created");
-	    }
-	    catch (SQLException e ) {
-	        System.out.println("An error has occured on Table Creation");
-	        e.printStackTrace();
-	    }
-	}
-	/**
-	 * This method return data all Columns from table and schema
-	 */
-	public static void getDataFromTable(Connection conn, String schema, String table)
-	{
-		try {
-			PrintWriter writer = new PrintWriter("/Users/plpereir/OneDrive/MacBook/03-Treinamentos/Labs/Java/workspace/MoodleAnalytics/csvFilesFromTables/"+table+".csv", "UTF-8");
-
-			String query = getSQLQyery(conn, schema, table);
-	        Statement stmt = conn.createStatement();
-	        ResultSet rs = stmt.executeQuery(query);
-	        ResultSetMetaData rsmd = rs.getMetaData();
-	          //Get number of columns returned
-	          int numOfCols = rsmd.getColumnCount();
-	          System.out.println("this table "+table+" has "+numOfCols+" columns.");
-	        List<String> listColumns = getColumnsTables(conn, schema, table);
-        	String tmp = "";
-	          //Print out type for each column
-	          for(int i=1; i<=numOfCols; ++i)
-	          {
-	               System.out.println("Column [" + rsmd.getColumnName(i) + "] data type: " + rsmd.getColumnTypeName(i) + " size: "+rsmd.getColumnDisplaySize(i));
-	               tmp += rsmd.getColumnName(i)+"; ";
-	          }
-	          System.out.println(tmp);
-	          writer.println(tmp);
-	        
-	        while (rs.next())
-	        {
-	        	tmp = "";
-	        	for (String column : listColumns) {
-
-	        		try {
-	        			tmp += rs.getInt(column)+"; ";
-	        		}catch (Exception ex)
-	        		{
-	        			try
-	        			{
-	        				tmp += rs.getString(column)+"; ";
-	        			}catch (Exception ex2)
-	        			{
-	        				System.out.println(ex2);
-	        			}
-	        		}
-	        		
-	        	}
-	        	System.out.println(tmp);
-		        writer.println(tmp);
-
-	        }
-			writer.close();
-			rs.close();
-			stmt.close();
-	        
-		}catch (Exception ex)
-		{
-			ex.printStackTrace();
-		}
-	}
-
+	
 	/**
 	 * This method restart the connection
 	 */
-	public java.sql.Connection restartConnection() {
-		closeConnection();
-		return DAO.getConnectionMySQL();
+	public java.sql.Connection restartConnection(Connection conn) {
+		closeConnection(conn);
+		return getConnectionMySQL();
 	}
 
-	/**
-	 * this method return all tables from schema
-	 * @param con
-	 * @param schema
-	 * @param table
-	 */
-	public static void getSchemaInformations(Connection conn, String schema)
-	{
-		List<String> with = new ArrayList<String>();
-		List<String> without = new ArrayList<String>();
-
-		for (InformationsSchema item : getAllTables(conn)) {
-			try {
-				if (checkDataExistis(conn, item.getSchema(), item.getObjectName())
-						&& (item.getSchema().equals(schema))) {
-					with.add(item.getObjectName());
-				} else {
-					without.add(item.getObjectName());
-				}
-			} catch (Exception ex) {
-
-			}
-		}
-		System.out.println("Tables without data list:");
-		for (String out:without)
-		{
-			System.out.println(out);
-		}
-		
-		System.out.println("Tables with data list:");
-		for (String in:with)
-		{
-			System.out.println(in);
-		}
-	}
-	
 	/**
 	 * @param args
 	 * @throws SQLException
 	 */
 	public static void main(String[] args) throws SQLException {
-		Connection conn = DAO.getConnectionMySQL();
+		Connection conn = getConnectionMySQL();
 
 		// TODO Auto-generated method stub
-		// System.out.println(DAO.getConnectionMySQL());
-		// System.out.println(DAO.statusConnection());
-		// DAO.getColumnsTables(DAO.getConnectionMySQL(),item.getSchema(),item.getObjectName());
-		// getSQLQyery(conn, "MoodleAnalytics", "mdl_assign_user_flags");
-		// getDataFromTable(conn, "MoodleAnalytics", "mdl_assign_user_flags");
-		// createTable( conn,  "MoodleAnalytics");
-		getSchemaInformations(conn, "MoodleAnalytics");
-
-
+		System.out.println("The connection information: "+conn);
+		System.out.println("The connection status: "+getStatusConnection(conn));
+		System.out.println("The connection close: "+closeConnection(conn));
 	}
 }
