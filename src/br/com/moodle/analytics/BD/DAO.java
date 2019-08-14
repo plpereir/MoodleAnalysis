@@ -6,7 +6,6 @@ package br.com.moodle.analytics.BD;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * @author Pedro Luiz da Silva Pereira
@@ -19,14 +18,8 @@ import java.io.PrintWriter;
  * required class to manager database
  */
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 public class DAO {
@@ -121,24 +114,6 @@ public class DAO {
 		}
 	}
 
-	/**
-	 * this method check if table exists
-	 */
-	public static boolean tableExist(Connection conn, String tableName) throws SQLException {
-	    boolean tExists = false;
-	    try (ResultSet rs = conn.getMetaData().getTables(null, null, tableName, null)) {
-	        while (rs.next()) { 
-	            String tName = rs.getString("TABLE_NAME");
-	            if (tName != null && tName.equals(tableName)) {
-	                tExists = true;
-	                break;
-	            }
-	        }
-	    }
-	    return tExists;
-	}
-	
-	
 	/**
 	 * This method restart the connection
 	 */
