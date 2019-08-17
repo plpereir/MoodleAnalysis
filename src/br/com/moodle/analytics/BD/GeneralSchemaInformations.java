@@ -4,6 +4,7 @@
 package br.com.moodle.analytics.BD;
 
 import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -37,36 +38,57 @@ public class GeneralSchemaInformations {
 		return tables;
 	}
 
-	  public static void getColumnNames(String table) throws SQLException {
-		     DatabaseMetaData meta = ConnectionFactory.getConnectionMySQL().getMetaData();
-		     ResultSet res = meta.getColumns(ConnectionFactory.prop.getPropertyValue("mydatabase"), null, table, "%");
-		      System.out.println("List of columns: "); 
-		      while (res.next()) {
-		         System.out.println(
-		           "  "+res.getString("TABLE_SCHEM")
-		           + ", "+res.getString("TABLE_NAME")
-		           + ", "+res.getString("COLUMN_NAME")
-		           + ", "+res.getString("TYPE_NAME")
-		           + ", "+res.getInt("COLUMN_SIZE")
-		           + ", "+res.getInt("NULLABLE")); 
-		      }
-		      res.close();
-
-		  }
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-	/*for (String table : getAllTablesFromSchema()) {
-			System.out.println(table);
-		}*/
+	public static Boolean isContainsRecords(String table) {
+		Boolean contains = false;
 		try {
-			getColumnNames("mdl_assign");
+
+			String query = ("SELECT COUNT(*) FROM " + table);
+			PreparedStatement cnt = ConnectionFactory.getConnectionMySQL().prepareStatement(query);
+			ResultSet ct = cnt.executeQuery();
+			while (ct.next()) {
+				System.out.println("Table " + table + " has " + ct.getString(1) + " records\r\n");
+				if (Integer.parseInt(ct.getString(1)) > 0) {
+					contains = true;
+				} else {
+					contains = false;
+				}
+			}
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		return contains;
+	}
+
+	public static void getColumnNames(String table) throws SQLException {
+		DatabaseMetaData meta = ConnectionFactory.getConnectionMySQL().getMetaData();
+		ResultSet res = meta.getColumns(ConnectionFactory.prop.getPropertyValue("mydatabase"), null, table, "%");
+		System.out.println("List of columns: ");
+		while (res.next()) {
+			System.out.println("  " + res.getString("TABLE_SCHEM") + ", " + res.getString("TABLE_NAME") + ", "
+					+ res.getString("COLUMN_NAME") + ", " + res.getString("TYPE_NAME") + ", "
+					+ res.getInt("COLUMN_SIZE") + ", " + res.getInt("NULLABLE"));
+		}
+		res.close();
+
+	}
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		/*
+		 * for (String table : getAllTablesFromSchema()) { System.out.println(table); }
+		 */
+		try {
+			getColumnNames("mdl_assign");
+			System.out.println(isContainsRecords("mdl_assign"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 }
