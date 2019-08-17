@@ -2,11 +2,6 @@
  * 
  */
 package br.com.moodle.analytics.BD;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 /**
  * @author Pedro Luiz da Silva Pereira
  * date: 2019 05 16
@@ -20,13 +15,14 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
+
+import br.com.moodle.analytics.util.GetInformationsProperties;
 
 public class ConnectionFactory {
 	/**
 	 * properties used this class
 	 */
-	private static Properties prop = new Properties();
+	private static GetInformationsProperties prop = new GetInformationsProperties();
 
 	/**
 	 * this is the connection method
@@ -37,54 +33,29 @@ public class ConnectionFactory {
 		 * attribute Connection Type
 		 */
 		Connection connection = null;
-		try {
-
 			/**
 			 * loading standard JDBC driver
 			 */
 			String driverName = "com.mysql.cj.jdbc.Driver";
-			Class.forName(driverName);
-
-			/**
-			 * set config database connection - give property file location - load
-			 * properties file - takes the key of the property as a parameter and return the
-			 * value to connect database
-			 */
-			FileInputStream ip;
 			try {
-				ip = new FileInputStream("config.properties");
-				try {
-					prop.load(ip);
-					String serverName = prop.getProperty("serverName");
-					String mydatabase = prop.getProperty("mydatabase");
-					String url = "jdbc:mysql://" + serverName + "/" + mydatabase;
-					
-					Properties properties = new Properties();
-					properties.setProperty("user", prop.getProperty("user"));
-					properties.setProperty("password", prop.getProperty("password"));
-					properties.setProperty("useSSL", prop.getProperty("useSSL"));
-					properties.setProperty("useTimezone", prop.getProperty("useTimezone"));
-					properties.setProperty("serverTimezone", prop.getProperty("serverTimezone"));
-					properties.setProperty("autoReconnect", prop.getProperty("autoReconnect"));
-					
-					connection = DriverManager.getConnection(url,properties);
-
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
+				Class.forName(driverName);
+				/**
+				 * set config database connection - give property file location - load
+				 * properties file - takes the key of the property as a parameter and return the
+				 * value to connect database
+				 */
+						String serverName = prop.getPropertyValue("serverName");
+						String mydatabase = prop.getPropertyValue("mydatabase");
+						String url = "jdbc:mysql://" + serverName + "/" + mydatabase;
+						try {
+							connection = DriverManager.getConnection(url, prop.setPropertiesDatabase());
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
-		} catch (ClassNotFoundException e) {
-			System.out.println("The specified driver could not be found: "+e);
-			connection = null;
-		} catch (SQLException e) {
-			System.out.println("Cloud not connect database: "+e);
-			connection = null;
-		}
-		return connection;
+			return connection;
 	}
 
 	/**
@@ -128,8 +99,6 @@ public class ConnectionFactory {
 	 */
 	public static void main(String[] args) throws SQLException {
 		Connection conn = getConnectionMySQL();
-
-		// TODO Auto-generated method stub
 		System.out.println("The connection information: "+conn);
 		System.out.println("The connection status: "+getStatusConnection(conn));
 		System.out.println("The connection close: "+closeConnection(conn));
