@@ -3,6 +3,7 @@
  */
 package br.com.moodle.analytics.BD;
 
+import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,12 +19,12 @@ import java.util.List;
  */
 public class GeneralSchemaInformations {
 
-	protected static List<String> getAllTablesFromSchema() {
+	protected static List<String> getAllTablesFromSchema(Connection conn) {
 		List<String> tables = new ArrayList<>();
 
 		DatabaseMetaData md;
 		try {
-			md = ConnectionFactory.getConnectionMySQL().getMetaData();
+			md = conn.getMetaData();
 			ResultSet rs = md.getTables(null, null, "%", null);
 			while (rs.next()) {
 				if (ConnectionFactory.prop.getPropertyValue("mydatabase").equals(rs.getString(1))
@@ -32,21 +33,19 @@ public class GeneralSchemaInformations {
 				}
 			}
 			rs.close();
-			ConnectionFactory.getConnectionMySQL().close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return tables;
 	}
 
-	public static Boolean isContainsRecords(String table) {
+	public static Boolean isContainsRecords(Connection conn, String table) {
 		Boolean contains = false;
 		try {
 
 			String query = ("SELECT COUNT(*) FROM " + table);
-			PreparedStatement cnt = ConnectionFactory.getConnectionMySQL().prepareStatement(query);
+			PreparedStatement cnt = conn.prepareStatement(query);
 			ResultSet ct = cnt.executeQuery();
 			while (ct.next()) {
 				System.out.println("Table " + table + " has " + ct.getString(1) + " records\r\n");
@@ -58,7 +57,6 @@ public class GeneralSchemaInformations {
 			}
 			ct.close();
 			cnt.close();
-			ConnectionFactory.getConnectionMySQL().close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -87,8 +85,10 @@ public class GeneralSchemaInformations {
 		 * for (String table : getAllTablesFromSchema()) { System.out.println(table); }
 		 */
 		try {
+			Connection conn = ConnectionFactory.getConnectionMySQL();
 			getColumnNames("mdl_assign");
-			System.out.println(isContainsRecords("mdl_assign"));
+			System.out.println(isContainsRecords(conn,"mdl_assign"));
+			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
