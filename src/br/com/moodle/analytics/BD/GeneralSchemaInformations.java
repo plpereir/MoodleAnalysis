@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class GeneralSchemaInformations {
 
-	private static List<String> getAllTablesFromSchema() {
+	protected static List<String> getAllTablesFromSchema() {
 		List<String> tables = new ArrayList<>();
 
 		DatabaseMetaData md;
@@ -31,10 +31,13 @@ public class GeneralSchemaInformations {
 					tables.add(rs.getString(3));
 				}
 			}
+			rs.close();
+			ConnectionFactory.getConnectionMySQL().close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return tables;
 	}
 
@@ -53,7 +56,9 @@ public class GeneralSchemaInformations {
 					contains = false;
 				}
 			}
-
+			ct.close();
+			cnt.close();
+			ConnectionFactory.getConnectionMySQL().close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
