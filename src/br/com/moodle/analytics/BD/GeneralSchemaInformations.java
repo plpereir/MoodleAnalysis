@@ -74,7 +74,20 @@ public class GeneralSchemaInformations {
 					+ res.getInt("COLUMN_SIZE") + ", " + res.getInt("NULLABLE"));
 		}
 		res.close();
-
+	}
+	
+	public static boolean tableExist(Connection conn, String tableName) throws SQLException {
+	    boolean tExists = false;
+	    try (ResultSet rs = conn.getMetaData().getTables(null, null, tableName, null)) {
+	        while (rs.next()) { 
+	            String tName = rs.getString("TABLE_NAME");
+	            if (tName != null && tName.equals(tableName)) {
+	                tExists = true;
+	                break;
+	            }
+	        }
+	    }
+	    return tExists;
 	}
 
 	/**
@@ -84,15 +97,6 @@ public class GeneralSchemaInformations {
 		/*
 		 * for (String table : getAllTablesFromSchema()) { System.out.println(table); }
 		 */
-		try {
-			Connection conn = ConnectionFactory.getConnectionMySQL();
-			getColumnNames("mdl_assign");
-			System.out.println(isContainsRecords(conn,"mdl_assign"));
-			conn.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 	}
 
