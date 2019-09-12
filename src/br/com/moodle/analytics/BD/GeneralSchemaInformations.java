@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -44,7 +45,7 @@ public class GeneralSchemaInformations {
 		Boolean contains = false;
 		try {
 
-			String query = ("SELECT COUNT(*) FROM " + table);
+			String query = ("SELECT COUNT(*) FROM "+ConnectionFactory.prop.getPropertyValue("mydatabase")+"." + table);
 			PreparedStatement cnt = conn.prepareStatement(query);
 			ResultSet ct = cnt.executeQuery();
 			while (ct.next()) {
@@ -64,7 +65,7 @@ public class GeneralSchemaInformations {
 		return contains;
 	}
 
-	public static void getColumnNames(String table) throws SQLException {
+	public static void getAllInformationsFromTable(String table) throws SQLException {
 		DatabaseMetaData meta = ConnectionFactory.getConnectionMySQL().getMetaData();
 		ResultSet res = meta.getColumns(ConnectionFactory.prop.getPropertyValue("mydatabase"), null, table, "%");
 		System.out.println("List of columns: ");
@@ -75,6 +76,80 @@ public class GeneralSchemaInformations {
 		}
 		res.close();
 	}
+	
+	public static ArrayList<String> getColumnListValues(String getTable, String getcolumn) throws SQLException
+	{
+		ArrayList<String> getcolumnlistalues = new ArrayList<String>();
+	    Connection con = ConnectionFactory.getConnectionMySQL();
+	    String query = "select " +getcolumn+", count(*) as Qty from "+ConnectionFactory.prop.getPropertyValue("mydatabase")+"."+getTable+" where "+getcolumn+" is not null group by "+getcolumn+" order by Qty desc;";
+	  //  String query = "select distinct " +getcolumn+" from BooksAnalytics."+getTable+" order by "+getcolumn+" asc";
+	    PreparedStatement st = con.prepareStatement(query);
+	    ResultSet rs = st.executeQuery();
+	    while(rs.next()){
+	    	getcolumnlistalues.add(rs.getString(1));
+	    }
+
+		rs.close();
+		st.close();
+		con.close();
+		
+		return getcolumnlistalues;
+	}
+	
+	public static ArrayList<String> getTableSelect(String sql) throws SQLException
+	{
+		ArrayList<String> getSelectRows = new ArrayList<String>();
+	    Connection con = ConnectionFactory.getConnectionMySQL();
+	    String query = sql;
+	    PreparedStatement st = con.prepareStatement(query);
+	    ResultSet rs = st.executeQuery();
+	    //from result set give metadata
+	    ResultSetMetaData rsmd = rs.getMetaData();
+
+	    //columns count from metadata object
+	    int numOfCols = rsmd.getColumnCount();
+	    while(rs.next()){
+	    	String strLine = new String();
+	    	for(int i = 1; i <= numOfCols; i++)
+	    	{
+	    		strLine = strLine +","+ rs.getString(i);
+	    	}
+    	    System.out.println(strLine.substring(1, strLine.length()));
+    	    getSelectRows.add(strLine.substring(1, strLine.length()));
+	    }
+
+		rs.close();
+		st.close();
+		con.close();
+		
+		return getSelectRows;
+	}
+	
+	public static ArrayList<String> getColumnNames(String getTable) throws SQLException
+	{
+		ArrayList<String> getcolumnnames = null;
+        String module = getTable;
+        switch (module) {
+            case "mdl_assign":
+        		 getcolumnnames = new ArrayList<String>(Arrays.asList(ConnectionFactory.prop.getPropertyValue("assignment_sql").split(",")));
+                break;
+            default:
+            	 getcolumnnames  = new ArrayList<String>();
+        	    Connection con = ConnectionFactory.getConnectionMySQL();
+        	    String query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '"+ConnectionFactory.prop.getPropertyValue("mydatabase")+"' AND TABLE_NAME = '"+getTable+"';";
+        	    PreparedStatement st = con.prepareStatement(query);
+        	    ResultSet rs = st.executeQuery();
+        	    while(rs.next()){
+        	    	getcolumnnames.add(rs.getString(1));
+        	    }
+
+        		rs.close();
+        		st.close();
+        		con.close();
+        }
+		return getcolumnnames;
+	}
+
 	
 	public static boolean tableExist(Connection conn, String tableName) throws SQLException {
 	    boolean tExists = false;
@@ -97,6 +172,11 @@ public class GeneralSchemaInformations {
 		/*
 		 * for (String table : getAllTablesFromSchema()) { System.out.println(table); }
 		 */
+		try {
+			getColumnNames("mdl_grading_definitions");
+		} catch (SQLException e) {
+			System.out.println("Error: "+e.toString());
+		}
 
 	}
 

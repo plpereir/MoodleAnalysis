@@ -22,7 +22,7 @@ public class ConnectionFactory {
 	/**
 	 * properties used this class
 	 */
-	protected static GetInformationsProperties prop = new GetInformationsProperties();
+	public static GetInformationsProperties prop = new GetInformationsProperties();
 
 	/**
 	 * this is the connection method
