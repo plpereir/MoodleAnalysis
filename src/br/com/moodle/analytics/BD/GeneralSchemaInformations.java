@@ -21,7 +21,7 @@ import java.util.List;
 public class GeneralSchemaInformations {
 
 	protected static List<String> getAllTablesFromSchema(Connection conn) {
-		List<String> tables = new ArrayList<>();
+		List<String> tables = new ArrayList<String>();
 
 		DatabaseMetaData md;
 		try {
@@ -125,28 +125,29 @@ public class GeneralSchemaInformations {
 		return getSelectRows;
 	}
 	
+
 	public static ArrayList<String> getColumnNames(String getTable) throws SQLException
 	{
-		ArrayList<String> getcolumnnames = null;
-        String module = getTable;
-        switch (module) {
-            case "mdl_assign":
-        		 getcolumnnames = new ArrayList<String>(Arrays.asList(ConnectionFactory.prop.getPropertyValue("assignment_sql").split(",")));
-                break;
-            default:
-            	 getcolumnnames  = new ArrayList<String>();
-        	    Connection con = ConnectionFactory.getConnectionMySQL();
-        	    String query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '"+ConnectionFactory.prop.getPropertyValue("mydatabase")+"' AND TABLE_NAME = '"+getTable+"';";
-        	    PreparedStatement st = con.prepareStatement(query);
-        	    ResultSet rs = st.executeQuery();
-        	    while(rs.next()){
-        	    	getcolumnnames.add(rs.getString(1));
-        	    }
-
-        		rs.close();
-        		st.close();
-        		con.close();
-        }
+		ArrayList<String> getcolumnnames =  new ArrayList<String>();
+		DatabaseMetaData meta = ConnectionFactory.getConnectionMySQL().getMetaData();
+		ResultSet res = meta.getColumns(ConnectionFactory.prop.getPropertyValue("mydatabase"), null, getTable, "%");
+		while (res.next()) {
+				if ((res.getString("TYPE_NAME").toString().equals("VARCHAR")) && (res.getInt("COLUMN_SIZE") < 20))
+				{
+					getcolumnnames.add(res.getString("COLUMN_NAME").toString());
+				}
+				if (res.getString("TYPE_NAME").toString().contains("INT"))
+				{
+					if ((!res.getString("COLUMN_NAME").toString().contains("date")) && 
+						(!res.getString("COLUMN_NAME").toString().contains("time"))	&& 
+						(!res.getString("COLUMN_NAME").toString().equals("id"))	
+					   )
+					{
+						getcolumnnames.add(res.getString("COLUMN_NAME").toString());							
+					}
+				}
+		}
+		res.close();
 		return getcolumnnames;
 	}
 
@@ -173,7 +174,8 @@ public class GeneralSchemaInformations {
 		 * for (String table : getAllTablesFromSchema()) { System.out.println(table); }
 		 */
 		try {
-			getColumnNames("mdl_grading_definitions");
+			//getAllInformationsFromTable("mdl_assign");
+			getColumnNames("mdl_assign");
 		} catch (SQLException e) {
 			System.out.println("Error: "+e.toString());
 		}
