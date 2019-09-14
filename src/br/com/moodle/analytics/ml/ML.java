@@ -127,8 +127,8 @@ public class ML {
 	
 	public static void main(String[] args) {
 		try {
-			EM("mdl_assign");
-			Apriori("mdl_assign");
+			//EM("mdl_assign");
+			Apriori("mdl_course");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.toString());
