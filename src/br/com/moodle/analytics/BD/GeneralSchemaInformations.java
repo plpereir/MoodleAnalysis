@@ -57,7 +57,6 @@ public class GeneralSchemaInformations {
 			}
 			rs.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return tables;
@@ -84,7 +83,6 @@ public class GeneralSchemaInformations {
 			ct.close();
 			cnt.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		}

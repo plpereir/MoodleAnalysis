@@ -12,7 +12,6 @@ public class ML {
 	
 	public static void EM(String table) throws Exception
 	{
-		// TODO Auto-generated method stub
 		 PrintWriter writer = new PrintWriter("arff/"+table+"_EM_result.txt", "UTF-8");
 		System.out.println("Job Start EM");
 		/*Lendo o arquivo arff*/
@@ -68,7 +67,6 @@ public class ML {
 
 	public static void Apriori(String table) throws Exception
 	{
-		// TODO Auto-generated method stub
 		 PrintWriter writer = new PrintWriter("arff/"+table+"_result_Apriori.txt", "UTF-8");
 		System.out.println("Job Start Apriori");
 		/*Lendo o arquivo arff*/
@@ -128,9 +126,8 @@ public class ML {
 	public static void main(String[] args) {
 		try {
 			//EM("mdl_assign");
-			Apriori("mdl_course");
+			Apriori("mdl_assign");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			System.out.println(e.toString());
 		}
 	}
