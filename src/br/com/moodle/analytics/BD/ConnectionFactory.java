@@ -15,6 +15,7 @@ package br.com.moodle.analytics.BD;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import br.com.moodle.analytics.util.GetInformationsProperties;
 
@@ -44,11 +45,42 @@ public class ConnectionFactory {
 				 * properties file - takes the key of the property as a parameter and return the
 				 * value to connect database
 				 */
-						String serverName = prop.getPropertyValue("serverName");
-						String mydatabase = prop.getPropertyValue("mydatabase");
+						String serverName = prop.getPropertyValue(null,"serverName");
+						String mydatabase = prop.getPropertyValue(null,"mydatabase");
 						String url = "jdbc:mysql://" + serverName + "/" + mydatabase;
 						try {
-							connection = DriverManager.getConnection(url, prop.setPropertiesDatabase());
+							connection = DriverManager.getConnection(url, prop.setPropertiesDatabase(null));
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			return connection;
+	}
+	
+	
+	public static java.sql.Connection getConnection(String serverName,String mydatabase,Properties setProperties) {
+		
+		/**
+		 * attribute Connection Type
+		 */
+		Connection connection = null;
+			/**
+			 * loading standard JDBC driver
+			 */
+			String driverName = "com.mysql.cj.jdbc.Driver";
+			try {
+				Class.forName(driverName);
+				/**
+				 * set config database connection - give property file location - load
+				 * properties file - takes the key of the property as a parameter and return the
+				 * value to connect database
+				 */
+
+						String url = "jdbc:mysql://" + serverName + "/" + mydatabase;
+						try {
+							connection = DriverManager.getConnection(url, setProperties);
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}

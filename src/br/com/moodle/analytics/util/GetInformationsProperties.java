@@ -5,6 +5,7 @@ package br.com.moodle.analytics.util;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -19,11 +20,17 @@ public class GetInformationsProperties {
 	 */
 	private static Properties prop = new Properties();
 	
-	public String getPropertyValue(String key)
+	public String getPropertyValue(InputStream in, String key)
 	{
 		try {
-		FileInputStream ip = new FileInputStream("config.properties");
-		prop.load(ip);
+		if (in == null)
+		{
+		 FileInputStream f = new FileInputStream("config.properties");
+			prop.load(f);
+		} else
+		{
+			prop.load(in);
+		}
 		return prop.getProperty(key);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -31,15 +38,15 @@ public class GetInformationsProperties {
 		return null;
 	}
 	
-	public Properties setPropertiesDatabase()
+	public Properties setPropertiesDatabase(InputStream in)
 	{
 		Properties properties = new Properties();
-		properties.setProperty("user", getPropertyValue("user"));
-		properties.setProperty("password", getPropertyValue("password"));
-		properties.setProperty("useSSL", getPropertyValue("useSSL"));
-		properties.setProperty("useTimezone", getPropertyValue("useTimezone"));
-		properties.setProperty("serverTimezone", getPropertyValue("serverTimezone"));
-		properties.setProperty("autoReconnect", getPropertyValue("autoReconnect"));
+		properties.setProperty("user", getPropertyValue(in,"user"));
+		properties.setProperty("password", getPropertyValue(in,"password"));
+		properties.setProperty("useSSL", getPropertyValue(in,"useSSL"));
+		properties.setProperty("useTimezone", getPropertyValue(in,"useTimezone"));
+		properties.setProperty("serverTimezone", getPropertyValue(in,"serverTimezone"));
+		properties.setProperty("autoReconnect", getPropertyValue(in,"autoReconnect"));
 		
 		return properties;
 	}

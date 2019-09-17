@@ -26,7 +26,7 @@ public class GeneralSchemaInformations {
 			// Statements allow to issue SQL queries to the database
 			Statement statement = ConnectionFactory.getConnectionMySQL().createStatement();
 			ResultSet resultSet = statement.executeQuery("select " + column + ", count(" + column + ") as Count from "
-					+ ConnectionFactory.prop.getPropertyValue("mydatabase") + "." + table + " group by " + column
+					+ ConnectionFactory.prop.getPropertyValue(null,"mydatabase") + "." + table + " group by " + column
 					+ " order by " + column + ";");
 
 			while (resultSet.next()) {
@@ -50,7 +50,7 @@ public class GeneralSchemaInformations {
 			md = conn.getMetaData();
 			ResultSet rs = md.getTables(null, null, "%", null);
 			while (rs.next()) {
-				if (ConnectionFactory.prop.getPropertyValue("mydatabase").equals(rs.getString(1))
+				if (ConnectionFactory.prop.getPropertyValue(null,"mydatabase").equals(rs.getString(1))
 						&& rs.getString(4).equals("TABLE")) {
 					tables.add(rs.getString(3));
 				}
@@ -68,7 +68,7 @@ public class GeneralSchemaInformations {
 		{
 		try {
 
-			String query = ("SELECT COUNT(*) FROM " + ConnectionFactory.prop.getPropertyValue("mydatabase") + "."
+			String query = ("SELECT COUNT(*) FROM " + ConnectionFactory.prop.getPropertyValue(null,"mydatabase") + "."
 					+ table);
 			PreparedStatement cnt = conn.prepareStatement(query);
 			ResultSet ct = cnt.executeQuery();
@@ -91,7 +91,7 @@ public class GeneralSchemaInformations {
 
 	public static void getAllInformationsFromTable(String table) throws SQLException {
 		DatabaseMetaData meta = ConnectionFactory.getConnectionMySQL().getMetaData();
-		ResultSet res = meta.getColumns(ConnectionFactory.prop.getPropertyValue("mydatabase"), null, table, "%");
+		ResultSet res = meta.getColumns(ConnectionFactory.prop.getPropertyValue(null,"mydatabase"), null, table, "%");
 		System.out.println("List of columns: ");
 		while (res.next()) {
 			System.out.println("  " + res.getString("TABLE_SCHEM") + ", " + res.getString("TABLE_NAME") + ", "
@@ -105,7 +105,7 @@ public class GeneralSchemaInformations {
 		ArrayList<String> getcolumnlistalues = new ArrayList<String>();
 		Connection con = ConnectionFactory.getConnectionMySQL();
 		String query = "select " + getcolumn + ", count(*) as Qty from "
-				+ ConnectionFactory.prop.getPropertyValue("mydatabase") + "." + getTable + " where " + getcolumn
+				+ ConnectionFactory.prop.getPropertyValue(null,"mydatabase") + "." + getTable + " where " + getcolumn
 				+ " is not null group by " + getcolumn + " order by Qty desc;";
 		// String query = "select distinct " +getcolumn+" from
 		// BooksAnalytics."+getTable+" order by "+getcolumn+" asc";
@@ -152,7 +152,7 @@ public class GeneralSchemaInformations {
 	public static ArrayList<String> getColumnNames(String getTable) throws SQLException {
 		ArrayList<String> getcolumnnames = new ArrayList<String>();
 		DatabaseMetaData meta = ConnectionFactory.getConnectionMySQL().getMetaData();
-		ResultSet res = meta.getColumns(ConnectionFactory.prop.getPropertyValue("mydatabase"), null, getTable, "%");
+		ResultSet res = meta.getColumns(ConnectionFactory.prop.getPropertyValue(null,"mydatabase"), null, getTable, "%");
 		while (res.next()) {
 			if (checkValidAttribute(getTable, res.getString("COLUMN_NAME").toString())) {
 				if ((res.getString("TYPE_NAME").toString().equals("VARCHAR")) && (res.getInt("COLUMN_SIZE") < 20)) {
