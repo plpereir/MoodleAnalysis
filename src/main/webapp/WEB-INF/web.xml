@@ -2,15 +2,25 @@
  "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
-<web-app>
+<web-app >
 	<display-name>Archetype Created Web Application</display-name>
 	<servlet>
 		<servlet-name>primeiraServlet</servlet-name>
 		<servlet-class>br.com.moodle.analytics.servlets.LoadDashboard</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>AnalysisActiveModules</servlet-name>
+		<display-name>AnalysisActiveModules</display-name>
+		<description></description>
+		<servlet-class>br.com.moodle.analytics.servlets.AnalysisActiveModules</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>primeiraServlet</servlet-name>
 		<url-pattern>/dashboard</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AnalysisActiveModules</servlet-name>
+		<url-pattern>/AnalysisActiveModules</url-pattern>
 	</servlet-mapping>
 </web-app>

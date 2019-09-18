@@ -1,0 +1,55 @@
+getRevision: 12014
+globalInfo: Class implementing an Apriori-type algorithm. Iteratively reduces the minimum support until it finds the required number of rules with the given minimum confidence.
+The algorithm has an option to mine class association rules. It is adapted as explained in the second reference.
+
+For more information see:
+
+R. Agrawal, R. Srikant: Fast Algorithms for Mining Association Rules in Large Databases. In: 20th International Conference on Very Large Data Bases, 478-499, 1994.
+
+Bing Liu, Wynne Hsu, Yiming Ma: Integrating Classification and Association Rule Mining. In: Fourth International Conference on Knowledge Discovery and Data Mining, 80-86, 1998.
+getCapabilities: Capabilities: [Nominal attributes, Binary attributes, Unary attributes, Empty nominal attributes, Missing values, No class, Nominal class, Binary class, Missing class values]
+Dependencies: []
+Interfaces: []
+Minimum number of instances: 1
+
+getOptions: [Ljava.lang.String;@1ae6ba4
+getClusterModelsNumericAttsIf enabled the itemsets are output as well.
+toString: 
+Apriori
+=======
+
+Minimum support: 0.95 (1145 instances)
+Minimum metric <confidence>: 0.9
+Number of cycles performed: 1
+
+Generated sets of large itemsets:
+
+Size of set of large itemsets L(1): 9
+
+Size of set of large itemsets L(2): 35
+
+Size of set of large itemsets L(3): 75
+
+Size of set of large itemsets L(4): 96
+
+Size of set of large itemsets L(5): 75
+
+Size of set of large itemsets L(6): 35
+
+Size of set of large itemsets L(7): 9
+
+Size of set of large itemsets L(8): 1
+
+Best rules found:
+
+ 1. preventsubmissionnotingroup=0 1178 ==> requireallteammemberssubmit=0 1178    <conf:(1)> lift:(1.02) lev:(0.02) [20] conv:(20.53)
+ 2. maxattempts=-1 preventsubmissionnotingroup=0 1177 ==> requireallteammemberssubmit=0 1177    <conf:(1)> lift:(1.02) lev:(0.02) [20] conv:(20.51)
+ 3. teamsubmission=0 1176 ==> requireallteammemberssubmit=0 1176    <conf:(1)> lift:(1.02) lev:(0.02) [20] conv:(20.49)
+ 4. teamsubmission=0 1176 ==> preventsubmissionnotingroup=0 1176    <conf:(1)> lift:(1.02) lev:(0.02) [26] conv:(26.35)
+ 5. teamsubmission=0 preventsubmissionnotingroup=0 1176 ==> requireallteammemberssubmit=0 1176    <conf:(1)> lift:(1.02) lev:(0.02) [20] conv:(20.49)
+ 6. teamsubmission=0 requireallteammemberssubmit=0 1176 ==> preventsubmissionnotingroup=0 1176    <conf:(1)> lift:(1.02) lev:(0.02) [26] conv:(26.35)
+ 7. teamsubmission=0 1176 ==> requireallteammemberssubmit=0 preventsubmissionnotingroup=0 1176    <conf:(1)> lift:(1.02) lev:(0.02) [26] conv:(26.35)
+ 8. sendstudentnotifications=1 preventsubmissionnotingroup=0 1176 ==> requireallteammemberssubmit=0 1176    <conf:(1)> lift:(1.02) lev:(0.02) [20] conv:(20.49)
+ 9. teamsubmission=0 maxattempts=-1 1175 ==> requireallteammemberssubmit=0 1175    <conf:(1)> lift:(1.02) lev:(0.02) [20] conv:(20.48)
+10. teamsubmission=0 maxattempts=-1 1175 ==> preventsubmissionnotingroup=0 1175    <conf:(1)> lift:(1.02) lev:(0.02) [26] conv:(26.33)
+

@@ -1,3 +1,4 @@
+<%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
@@ -15,7 +16,11 @@
 <div class="alert alert-success">
 Alert Success
 </div>
+<form name="loginform" method="post" action="AnalysisActiveModules">
+	<input type="submit" name="Submit" value="Submit">
+</form>
 
+<h1>${message}</h1>
 </div>
 </body>
 </html>
