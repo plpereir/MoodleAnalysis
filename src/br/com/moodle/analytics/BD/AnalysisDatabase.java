@@ -1,11 +1,8 @@
 package br.com.moodle.analytics.BD;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Properties;
 
 import br.com.moodle.analytics.util.GetInformationsProperties;
 
@@ -35,16 +32,9 @@ public class AnalysisDatabase {
 		return ((rYes / (rYes + rNo)) * 100);
 	}
 
-	public static String getMoodleModuleAnalysis(Connection conn, InputStream in) {
+	public static String getMoodleModuleAnalysis(Connection conn, InputStream f) {
 		String tmpString = "";
-		InputStream f = null;
 
-		if (in != null)
-		{
-			f = in;
-		}
-		
-		
 		for (String module : prop.getPropertyValue(f,"modules").split(",")) {
 			try
 			{
