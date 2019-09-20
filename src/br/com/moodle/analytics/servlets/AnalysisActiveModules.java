@@ -108,10 +108,10 @@ public class AnalysisActiveModules extends HttpServlet {
 		String tmp = getMoodleModuleAnalysis(ConnectionFactory.getConnection(getPropertyValue(in, "serverName"),
 				getPropertyValue(in, "mydatabase"), setPropertiesDatabase(in)), in);
 		String message1 = tmp.substring(0, tmp.indexOf("|"));
-		String message2 = tmp.substring(tmp.indexOf("|") + 1, tmp.lastIndexOf("|") - 1);
+		String message2 = tmp.substring(tmp.indexOf("|")+1 , tmp.lastIndexOf("|")-1 );
 		request.setAttribute("message1", message1);
 		request.setAttribute("message2", message2);
-		request.getRequestDispatcher("/index.jsp").forward(request, response);
+		request.getRequestDispatcher("/Diagnostic.jsp").forward(request, response);
 	}
 
 }
