@@ -80,11 +80,11 @@ public class DataMining extends HttpServlet {
 		}
 
 		try {
-		//	generateARFF.getARFFFromFile(ConnectionFactory.getConnection(getPropertyValue(in, "serverName"),
-		//			getPropertyValue(in, "mydatabase"), setPropertiesDatabase(in)),getPropertyValue(in, "mydatabase"),table,TMP_DIR + table +".arff");
+			generateARFF.getARFFFromFile(ConnectionFactory.getConnection(getPropertyValue(in, "serverName"),
+					getPropertyValue(in, "mydatabase"), setPropertiesDatabase(in)),getPropertyValue(in, "mydatabase"),table,TMP_DIR + table +".arff");
 			
-		//	ML.Apriori(TMP_DIR,table);
-		//	ML.EM(TMP_DIR,table);
+			ML.Apriori(TMP_DIR,table);
+			ML.EM(TMP_DIR,table);
 			request.setAttribute("module",table);
 			} catch (Exception e) {
 				request.setAttribute("apriori", e.toString());
