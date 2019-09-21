@@ -1,6 +1,7 @@
 package br.com.moodle.analytics.ml;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.PrintWriter;
 
@@ -10,13 +11,19 @@ import weka.core.Instances;
 
 public class ML {
 	
-	public static void EM(String table) throws Exception
+	public static void EM(String pathFile,String table) throws Exception
 	{
-		 PrintWriter writer = new PrintWriter("arff/"+table+"_EM_result.txt", "UTF-8");
+		File file = new File(pathFile+table+"_result_EM.txt");
+		if (file.delete()) {
+			System.out.println("File " +pathFile+table+"_result_EM.txt" +" File deleted from Project root directory");
+		} else {
+			System.out.println("File " + pathFile+table+"_result_EM.txt" +" doesn't exist in the project root directory");
+		}
+		PrintWriter writer = new PrintWriter(pathFile+table+"_result_EM.txt", "UTF-8");
 		System.out.println("Job Start EM");
 		/*Lendo o arquivo arff*/
 		 BufferedReader reader = new BufferedReader(
-		 new FileReader("arff/"+table+".arff"));
+		 new FileReader(pathFile+table+".arff"));
 		 
 		 /*Criando uma instancia do Weka*/
 		 Instances data = new Instances(reader);
@@ -65,13 +72,19 @@ public class ML {
 	}
 
 
-	public static void Apriori(String table) throws Exception
+	public static void Apriori(String pathFile, String table) throws Exception
 	{
-		 PrintWriter writer = new PrintWriter("arff/"+table+"_result_Apriori.txt", "UTF-8");
+		File file = new File(pathFile+table+"_result_Apriori.txt");
+		if (file.delete()) {
+			System.out.println("File " +pathFile+table+"_result_Apriori.txt" +" File deleted from Project root directory");
+		} else {
+			System.out.println("File " + pathFile+table+"_result_Apriori.txt" +" doesn't exist in the project root directory");
+		}
+		PrintWriter writer = new PrintWriter(pathFile+table+"_result_Apriori.txt", "UTF-8");
 		System.out.println("Job Start Apriori");
 		/*Lendo o arquivo arff*/
 		 BufferedReader reader = new BufferedReader(
-		 new FileReader("arff/"+table+".arff"));
+		 new FileReader(pathFile+table+".arff"));
 		 
 		 /*Criando uma instancia do Weka*/
 		 Instances data = new Instances(reader);
@@ -125,8 +138,8 @@ public class ML {
 	
 	public static void main(String[] args) {
 		try {
-			//EM("mdl_assign");
-			Apriori("mdl_assign");
+			EM("arff/","mdl_assign");
+			Apriori("arff/","mdl_assign");
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

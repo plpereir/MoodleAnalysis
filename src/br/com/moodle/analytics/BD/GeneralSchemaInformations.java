@@ -20,13 +20,13 @@ import java.util.List;
  */
 public class GeneralSchemaInformations {
 
-	public static Boolean checkValidAttribute(String table, String column) {
+	public static Boolean checkValidAttribute(Connection conn, String schema, String table, String column) {
 		int count = 0;
 		try {
 			// Statements allow to issue SQL queries to the database
-			Statement statement = ConnectionFactory.getConnectionMySQL().createStatement();
+			Statement statement = conn.createStatement();
 			ResultSet resultSet = statement.executeQuery("select " + column + ", count(" + column + ") as Count from "
-					+ ConnectionFactory.prop.getPropertyValue(null,"mydatabase") + "." + table + " group by " + column
+					+ schema + "." + table + " group by " + column
 					+ " order by " + column + ";");
 
 			while (resultSet.next()) {
@@ -55,21 +55,21 @@ public class GeneralSchemaInformations {
 					tables.add(rs.getString(3));
 				}
 			}
-			rs.close();
+			//rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return tables;
 	}
 
-	public static Boolean isContainsRecords(Connection conn, String table) throws Exception, SQLException {
+	public static Boolean isContainsRecords(Connection conn,String schema, String table) throws Exception, SQLException {
 		Boolean contains = false;
 		if (tableExist(conn,table))
 		{
 		try {
 
-			String query = ("SELECT COUNT(*) FROM " + ConnectionFactory.prop.getPropertyValue(null,"mydatabase") + "."
-					+ table);
+			String query = ("SELECT COUNT(*) FROM " + schema + "." + table);
+			
 			PreparedStatement cnt = conn.prepareStatement(query);
 			ResultSet ct = cnt.executeQuery();
 			while (ct.next()) {
@@ -80,8 +80,8 @@ public class GeneralSchemaInformations {
 					contains = false;
 				}
 			}
-			ct.close();
-			cnt.close();
+			//ct.close();
+			//cnt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -98,14 +98,14 @@ public class GeneralSchemaInformations {
 					+ res.getString("COLUMN_NAME") + ", " + res.getString("TYPE_NAME") + ", "
 					+ res.getInt("COLUMN_SIZE") + ", " + res.getInt("NULLABLE"));
 		}
-		res.close();
+		//res.close();
 	}
 
-	public static ArrayList<String> getColumnListValues(String getTable, String getcolumn) throws SQLException {
+	public static ArrayList<String> getColumnListValues(Connection conn, String schema, String getTable, String getcolumn) throws SQLException {
 		ArrayList<String> getcolumnlistalues = new ArrayList<String>();
-		Connection con = ConnectionFactory.getConnectionMySQL();
+		Connection con = conn;
 		String query = "select " + getcolumn + ", count(*) as Qty from "
-				+ ConnectionFactory.prop.getPropertyValue(null,"mydatabase") + "." + getTable + " where " + getcolumn
+				+ schema + "." + getTable + " where " + getcolumn
 				+ " is not null group by " + getcolumn + " order by Qty desc;";
 		// String query = "select distinct " +getcolumn+" from
 		// BooksAnalytics."+getTable+" order by "+getcolumn+" asc";
@@ -115,16 +115,16 @@ public class GeneralSchemaInformations {
 			getcolumnlistalues.add(rs.getString(1));
 		}
 
-		rs.close();
-		st.close();
-		con.close();
+	//	rs.close();
+	//	st.close();
+	//	con.close();
 
 		return getcolumnlistalues;
 	}
 
-	public static ArrayList<String> getTableSelect(String sql) throws SQLException {
+	public static ArrayList<String> getTableSelect(Connection conn, String sql) throws SQLException {
 		ArrayList<String> getSelectRows = new ArrayList<String>();
-		Connection con = ConnectionFactory.getConnectionMySQL();
+		Connection con = conn;
 		String query = sql;
 		PreparedStatement st = con.prepareStatement(query);
 		ResultSet rs = st.executeQuery();
@@ -142,19 +142,19 @@ public class GeneralSchemaInformations {
 			getSelectRows.add(strLine.substring(1, strLine.length()));
 		}
 
-		rs.close();
-		st.close();
-		con.close();
+		//rs.close();
+		//st.close();
+		//con.close();
 
 		return getSelectRows;
 	}
 
-	public static ArrayList<String> getColumnNames(String getTable) throws SQLException {
+	public static ArrayList<String> getColumnNames(Connection conn, String schema, String getTable) throws SQLException {
 		ArrayList<String> getcolumnnames = new ArrayList<String>();
-		DatabaseMetaData meta = ConnectionFactory.getConnectionMySQL().getMetaData();
-		ResultSet res = meta.getColumns(ConnectionFactory.prop.getPropertyValue(null,"mydatabase"), null, getTable, "%");
+		DatabaseMetaData meta = conn.getMetaData();
+		ResultSet res = meta.getColumns(schema, null, getTable, "%");
 		while (res.next()) {
-			if (checkValidAttribute(getTable, res.getString("COLUMN_NAME").toString())) {
+			if (checkValidAttribute(conn, schema, getTable, res.getString("COLUMN_NAME").toString())) {
 				if ((res.getString("TYPE_NAME").toString().equals("VARCHAR")) && (res.getInt("COLUMN_SIZE") < 20)) {
 					getcolumnnames.add(res.getString("COLUMN_NAME").toString());
 				}
@@ -167,7 +167,7 @@ public class GeneralSchemaInformations {
 				}
 			}
 		}
-		res.close();
+		//res.close();
 		return getcolumnnames;
 	}
 
@@ -199,7 +199,7 @@ public class GeneralSchemaInformations {
 		 */
 		try {
 			// getAllInformationsFromTable("mdl_assign");
-			getColumnNames("mdl_assign");
+			getColumnNames(ConnectionFactory.getConnectionMySQL(), ConnectionFactory.prop.getPropertyValue(null,"mydatabase"),"mdl_assign");
 		} catch (SQLException e) {
 			System.out.println("Error: " + e.toString());
 		}

@@ -23,7 +23,7 @@ public class AnalysisDatabase {
 		float rNo = 0;
 
 		for (String table : GeneralSchemaInformations.getAllTablesFromSchema(conn)) {
-			if (GeneralSchemaInformations.isContainsRecords(conn, table) == true) {
+			if (GeneralSchemaInformations.isContainsRecords(conn,ConnectionFactory.prop.getPropertyValue(null,"mydatabase"), table) == true) {
 				rYes = rYes + 1;
 			} else {
 				rNo = rNo + 1;

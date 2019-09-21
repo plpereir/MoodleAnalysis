@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -14,26 +15,26 @@ public class generateARFF {
 
 
 	
-	public static void getARFFFromFile(String table) throws Exception, Exception {
+	public static void getARFFFromFile(Connection conn,String schema, String table,String pathFile) throws Exception, Exception {
 		try {
-			if (GeneralSchemaInformations.isContainsRecords(ConnectionFactory.getConnectionMySQL(), table))
+			if (GeneralSchemaInformations.isContainsRecords(conn, schema, table))
 			{
-			File file = new File("arff/" + table + ".arff");
+			File file = new File(pathFile);
 			if (file.delete()) {
-				System.out.println("File arff/" + table + ".arff File deleted from Project root directory");
+				System.out.println(pathFile + " File deleted from Project root directory");
 			} else
-				System.out.println("File arff/" + table + ".arff doesn't exist in the project root directory");
+				System.out.println(pathFile + " doesn't exist in the project root directory");
 
-			PrintWriter writer = new PrintWriter("arff/" + table + ".arff", "UTF-8");
+			PrintWriter writer = new PrintWriter(pathFile, "UTF-8");
 			
 			try {
-				ArrayList<String> listColumns  = GeneralSchemaInformations.getColumnNames(table);
+				ArrayList<String> listColumns  = GeneralSchemaInformations.getColumnNames(conn,schema,table);
 				String queryFields = "";
 				System.out.println("@relation "+table);
 				writer.println("@relation "+table);
 				for (String element : listColumns)
 				{
-						ArrayList<String> listFieldValues = GeneralSchemaInformations.getColumnListValues(table,element);
+						ArrayList<String> listFieldValues = GeneralSchemaInformations.getColumnListValues(conn,schema,table,element);
 						String attribute = new String("@attribute "+element+" {");
 						for (String values : listFieldValues)
 						{
@@ -49,7 +50,7 @@ public class generateARFF {
 				writer.println("@data");
 				System.out.println("@data");
 				
-				ArrayList<String> listFieldValues = GeneralSchemaInformations.getTableSelect("select "+queryFields+" from "+ConnectionFactory.prop.getPropertyValue(null,"mydatabase")+"."+table);
+				ArrayList<String> listFieldValues = GeneralSchemaInformations.getTableSelect(conn,"select "+queryFields+" from "+schema+"."+table);
 				for (String values : listFieldValues)
 				{
 					writer.println(values);
@@ -73,7 +74,7 @@ public class generateARFF {
 
 	public static void main(String[] args) {
 		try {
-			getARFFFromFile("mdl_assign");
+			getARFFFromFile(ConnectionFactory.getConnectionMySQL(),ConnectionFactory.prop.getPropertyValue(null,"mydatabase"),"mdl_assign","arff/mdl_assign.arff");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

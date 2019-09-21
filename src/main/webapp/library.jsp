@@ -19,6 +19,17 @@ canvas {
 	-webkit-user-select: none;
 	-ms-user-select: none;
 }
+.modal-dialog,
+.modal-content {
+    /* 80% of window height */
+    height: 80%;
+}
+
+.modal-body {
+    /* 100% = dialog height, 120px = header + footer */
+    max-height: calc(100% - 120px);
+    overflow-y: scroll;
+}
 </style>
 
 <!-- Favicons -->

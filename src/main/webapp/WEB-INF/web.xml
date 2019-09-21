@@ -20,6 +20,18 @@
 		<description></description>
 		<servlet-class>br.com.moodle.analytics.servlets.DataMining</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>AprioriDetails</servlet-name>
+		<display-name>AprioriDetails</display-name>
+		<description>Allow the  App User viewer file about Apriori</description>
+		<servlet-class>br.com.moodle.analytics.servlets.AprioriDetails</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>EMDetails</servlet-name>
+		<display-name>EMDetails</display-name>
+		<description></description>
+		<servlet-class>br.com.moodle.analytics.servlets.EMDetails</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>primeiraServlet</servlet-name>
@@ -32,6 +44,14 @@
 	<servlet-mapping>
 		<servlet-name>DataMining</servlet-name>
 		<url-pattern>/DataMining</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AprioriDetails</servlet-name>
+		<url-pattern>/AprioriDetails</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>EMDetails</servlet-name>
+		<url-pattern>/EMDetails</url-pattern>
 	</servlet-mapping>
 	<error-page>
         <exception-type>java.lang.Exception</exception-type>

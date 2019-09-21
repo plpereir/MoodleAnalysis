@@ -1,45 +1,95 @@
 package br.com.moodle.analytics.servlets;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
+import java.util.Properties;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import br.com.moodle.analytics.BD.ConnectionFactory;
+import br.com.moodle.analytics.ml.ML;
+import br.com.moodle.analytics.ml.generateARFF;
 
 /**
  * Servlet implementation class DataMining
  */
 public class DataMining extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static final String TMP_DIR = System.getProperty("java.io.tmpdir")+"/ARFF/";
+	public static final String TMP_DIR = System.getProperty("java.io.tmpdir") + "/ARFF/";
+
+	private static String table = "mdl_assign";
+	
+	private static Properties prop = new Properties();
+
+	public static String getPropertyValue(InputStream in, String key) {
+		try {
+			prop.load(in);
+			return prop.getProperty(key);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
+	public Properties setPropertiesDatabase(InputStream in) {
+		Properties properties = new Properties();
+		properties.setProperty("user", getPropertyValue(in, "user"));
+		properties.setProperty("password", getPropertyValue(in, "password"));
+		properties.setProperty("useSSL", getPropertyValue(in, "useSSL"));
+		properties.setProperty("useTimezone", getPropertyValue(in, "useTimezone"));
+		properties.setProperty("serverTimezone", getPropertyValue(in, "serverTimezone"));
+		properties.setProperty("autoReconnect", getPropertyValue(in, "autoReconnect"));
+
+		return properties;
+	}
+	
+
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-
-		ServletContext context = getServletContext();
 		boolean success = (new File(TMP_DIR)).mkdirs();
-		if (success) {
-		    // Directory creation
-			File file = new File(TMP_DIR+"test.arff");
-			if (file.delete()) {
-				System.out.println("File "+TMP_DIR+"test.arff File deleted from Project root directory");
-			} else
-				System.out.println("File "+TMP_DIR+"test.arff doesn't exist in the project root directory");
+		InputStream in = getServletContext().getResourceAsStream("/WEB-INF/properties/config.properties");
 
-			PrintWriter writer = new PrintWriter(TMP_DIR+"test.arff", "UTF-8");
-			writer.println("@data");
-			writer.close();
-		}else
-		{
-			System.out.println("can't create file");
+		if (success) {
+			File file = new File(TMP_DIR + table +".arff");
+			if (file.delete()) {
+				System.out.println("File " + TMP_DIR  + table +".arff File deleted from Project root directory");
+			} else {
+				System.out.println("File " + TMP_DIR + table +".arff doesn't exist in the project root directory");
+			}
+		} else {
+			File directory = new File(TMP_DIR);
+			if (directory.exists()) {
+				File file = new File(TMP_DIR + table +".arff");
+				if (file.delete()) {
+					System.out.println("File " + TMP_DIR + table +".arff File deleted from Project root directory");
+				} else {
+					System.out.println("File " + TMP_DIR + table +".arff doesn't exist in the project root directory");
+				}
+			} else {
+				System.out.println("Can't create directory/file");
+			}
 		}
-		request.setAttribute("message2", "Created file at path: "+TMP_DIR);
+
+		try {
+		//	generateARFF.getARFFFromFile(ConnectionFactory.getConnection(getPropertyValue(in, "serverName"),
+		//			getPropertyValue(in, "mydatabase"), setPropertiesDatabase(in)),getPropertyValue(in, "mydatabase"),table,TMP_DIR + table +".arff");
+			
+		//	ML.Apriori(TMP_DIR,table);
+		//	ML.EM(TMP_DIR,table);
+			request.setAttribute("module",table);
+			} catch (Exception e) {
+				request.setAttribute("apriori", e.toString());
+				request.setAttribute("EM", e.toString());
+		}
 		request.getRequestDispatcher("/datamining.jsp").forward(request, response);
 	}
 
