@@ -36,7 +36,7 @@
 								Conference on Very Large Data Bases, 478-499, 1994.</p>
 							<div class="d-flex justify-content-between align-items-center">
 								<div class="btn-group">
-								<a class="btn btn-sm btn-primary" href='AprioriDetials?module=${module}' target="_blank"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>Download Report</a>
+								<a class="btn btn-sm btn-primary" href='AprioriDetails?module=${module}&pathfile=${pathfile}' target="_blank"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>Download Report</a>
 								</div>
 							</div>
 						</div>
@@ -71,7 +71,7 @@
 								to the number of instances.</p>
 							<div class="d-flex justify-content-between align-items-center">
 								<div class="btn-group">
-									<a class="btn btn-sm btn-primary" href='EMDetials?module=${module}' target="_blank"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>Download Report</a>
+									<a class="btn btn-sm btn-primary" href='EMDetails?module=${module}&pathfile=${pathfile}' target="_blank"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>Download Report</a>
 								</div>
 							</div>
 						</div>

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,9 +17,9 @@ public class AprioriDetails extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     @Override
 	protected
-    void doGet(HttpServletRequest request, HttpServletResponse response) {
+    void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        File arquivo = new File("/tmp/ARFF/"+request.getParameter("module")+"_result_Apriori.txt");
+        File arquivo = new File(request.getParameter("pathfile")+request.getParameter("module")+"_result_Apriori.txt");
         String nome = arquivo.getName();
         int tamanho = (int) arquivo.length();
 
@@ -34,6 +35,7 @@ public class AprioriDetails extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
     }
 
 }

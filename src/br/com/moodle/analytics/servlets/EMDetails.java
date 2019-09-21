@@ -17,9 +17,9 @@ public class EMDetails extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     @Override
 	protected
-    void doGet(HttpServletRequest request, HttpServletResponse response) {
+    void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        File arquivo = new File("/tmp/ARFF/"+request.getParameter("module")+"_result_EM.txt");
+        File arquivo = new File(request.getParameter("pathfile")+request.getParameter("module")+"_result_EM.txt");
         String nome = arquivo.getName();
         int tamanho = (int) arquivo.length();
 

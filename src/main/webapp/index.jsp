@@ -66,6 +66,95 @@
 							association (Apriori) 
 							and clustering (EM).</p>
 								<form name="loginform2" method="post" action="DataMining">
+<p>
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="modules" id="inlineRadio1" value="mdl_analytics_models">
+  <label class="form-check-label" for="inlineRadio1">analytics</label>
+</div>
+
+<div class="form-check form-check-inline">
+  <input class="form-check-input" checked="true" type="radio" name="modules" id="inlineRadio2" value="mdl_assign">
+  <label class="form-check-label" for="inlineRadio2">assignment</label>
+</div>
+
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="modules" id="inlineRadio3" value="mdl_granding_definitions">
+  <label class="form-check-label" for="inlineRadio3">advanced grading</label>
+</div>
+
+
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="modules" id="inlineRadio4" value="mdl_badge">
+  <label class="form-check-label" for="inlineRadio4">badge</label>
+</div>
+
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="modules" id="inlineRadio5" value="mdl_course">
+  <label class="form-check-label" for="inlineRadio5">course</label>
+</div>
+
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="modules" id="inlineRadio6" value="mdl_competency">
+  <label class="form-check-label" for="inlineRadio6">competency</label>
+</div>
+
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="modules" id="inlineRadio7" value="mdl_forum">
+  <label class="form-check-label" for="inlineRadio7">forum</label>
+</div>
+
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="modules" id="inlineRadio8" value="mdl_grade_items">
+  <label class="form-check-label" for="inlineRadio8">grading</label>
+</div>
+
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="modules" id="inlineRadio9" value="mdl_lesson">
+  <label class="form-check-label" for="inlineRadio9">lesson</label>
+</div>
+
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="modules" id="inlineRadio10" value="mdl_user">
+  <label class="form-check-label" for="inlineRadio10">user & profiles</label>
+</div>
+
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="modules" id="inlineRadio11" value="mdl_question">
+  <label class="form-check-label" for="inlineRadio11">question</label>
+</div>
+
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="modules" id="inlineRadio12" value="mdl_role">
+  <label class="form-check-label" for="inlineRadio12">roles</label>
+</div>
+
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="modules" id="inlineRadio13" value="mdl_quiz">
+  <label class="form-check-label" for="inlineRadio13">quiz</label>
+</div>
+
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="modules" id="inlineRadio14" value="mdl_scorm">
+  <label class="form-check-label" for="inlineRadio14">scorm</label>
+</div>
+
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="modules" id="inlineRadio15" value="mdl_survey">
+  <label class="form-check-label" for="inlineRadio15">survey</label>
+</div>
+
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="modules" id="inlineRadio16" value="mdl_wiki">
+  <label class="form-check-label" for="inlineRadio16">wiki</label>
+</div>
+
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="modules" id="inlineRadio17" value="mdl_workshop">
+  <label class="form-check-label" for="inlineRadio17">workshop</label>
+</div>
+
+</p>
+
 									<input class="btn btn-primary" role="button" type="submit"
 										name="Submit2" value="Load Reports"
 										onclick="getElementById('hidden-div2').style.display = 'none';getElementById('loadDiv2').style.display = 'block';">

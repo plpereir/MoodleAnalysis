@@ -24,7 +24,7 @@ public class DataMining extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static final String TMP_DIR = System.getProperty("java.io.tmpdir") + "/ARFF/";
 
-	private static String table = "mdl_assign";
+//	private static String table = "mdl_assign";
 	
 	private static Properties prop = new Properties();
 
@@ -55,6 +55,7 @@ public class DataMining extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String table = request.getParameter("modules");
 		boolean success = (new File(TMP_DIR)).mkdirs();
 		InputStream in = getServletContext().getResourceAsStream("/WEB-INF/properties/config.properties");
 
@@ -86,6 +87,7 @@ public class DataMining extends HttpServlet {
 			ML.Apriori(TMP_DIR,table);
 			ML.EM(TMP_DIR,table);
 			request.setAttribute("module",table);
+			request.setAttribute("pathfile",TMP_DIR);
 			} catch (Exception e) {
 				request.setAttribute("apriori", e.toString());
 				request.setAttribute("EM", e.toString());
