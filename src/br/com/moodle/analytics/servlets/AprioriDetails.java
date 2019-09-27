@@ -32,7 +32,6 @@ public class AprioriDetails extends HttpServlet {
 			output = response.getOutputStream();
 	        Files.copy(arquivo.toPath(), output); // escreve bytes no fluxo de saída
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

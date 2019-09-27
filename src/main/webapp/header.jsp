@@ -1,3 +1,4 @@
+
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
 		<div class="container">
@@ -11,16 +12,15 @@
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
-<!-- 				<ul class="navbar-nav ml-auto">
+ 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item active"><a class="nav-link"
-						data-toggle="collapse" data-target="#collapseOne" href="index.jsp">Module
-							Usage Diagnostics <span class="sr-only">(current)</span>
-					</a></li>
+						href="index.jsp?lg=PT">PT</a>
+					</li>
 					<li class="nav-item"><a class="nav-link"
-						data-toggle="collapse" data-target="#collapseTwo" href="index.jsp">Data
-							Mining Reports</a></li>
+						 href="index.jsp?lg=EN">EN</a>
+					</li>
 				</ul>
- -->
+ 
 			</div>
 		</div>
 	</nav>

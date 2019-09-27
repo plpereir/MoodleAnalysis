@@ -1,5 +1,9 @@
 <!-- page start -->
 <%@include file="library.jsp"%>
+<%@ page isELIgnored="false"%>
+<%@ page language="java" import="java.util.Properties"%>
+<%@ page language="java" import="java.io.InputStream"%>
+<%@include file="properties.jsp"%>
 <body>
 	<!-- Start Menu Bar-->
 	<%@include file="header.jsp"%>
@@ -9,21 +13,17 @@
 	<main role="main" class="container">
 	<div class="jumbotron" style="background-color: #ffffff;">
 		<h5 class="mt-4">Moodle Analytics</h5>
-		<p>Moodle analytics helps Moodle educators, education managers,
-			and administrators make a diagnosis of how much modules are being
-			used, as well as providing data mining reports. For unused modules,
-			consultation of the main function of the module is available in order
-			to encourage its use.</p>
-
+		<p><%out.println(prop.getProperty("homeTitle"));%></p>
+		
 		<div class="container">
 			<canvas id="canvas"></canvas>
 			<script>
-              var MONTHS = ['analytics','assignment','advanced grading','badge','course','competency','forum','grading','lesson','messages','question bank','question types','roles','quiz','scorm','survey','users and profiles','wiki','workshop'];
+              var MONTHS = [<%out.println(prop.getProperty("Modules"));%>];
               var color = Chart.helpers.color;
               var horizontalBarChartData = {
-                labels: ['analytics','assignment','advanced grading','badge','course','competency','forum','grading','lesson','messages','question bank','question types','roles','quiz','scorm','survey','users and profiles','wiki','workshop'],
+                labels: [<%out.println(prop.getProperty("Modules"));%>],
                 datasets: [ {
-                  label: 'module tables used',
+                  label: <%out.println(prop.getProperty("label"));%>,
                   backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
                   borderColor: window.chartColors.blue,
                   data:${message1}
@@ -49,19 +49,18 @@
                     },
                     title: {
                       display: true,
-                      text: 'Use Modules'
+                      text: <%out.println(prop.getProperty("chartText"));%>
                     }
                   }
                 });
               };
             </script>
 			<div>${message2}</div>
-
+		</div>
 		</div>
 		<!-- /.container -->
 		<!-- footer start -->
 		<%@include file="footer.jsp"%>
-
 		<!-- footer end -->
 </body>
 </html>

@@ -32,6 +32,18 @@
 		<description></description>
 		<servlet-class>br.com.moodle.analytics.servlets.EMDetails</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>SetCookie</servlet-name>
+		<display-name>SetCookie</display-name>
+		<description></description>
+		<servlet-class>br.com.moodle.analytics.servlets.SetCookie</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>GetCookie</servlet-name>
+		<display-name>GetCookie</display-name>
+		<description></description>
+		<servlet-class>br.com.moodle.analytics.servlets.GetCookie</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>primeiraServlet</servlet-name>
@@ -52,6 +64,14 @@
 	<servlet-mapping>
 		<servlet-name>EMDetails</servlet-name>
 		<url-pattern>/EMDetails</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SetCookie</servlet-name>
+		<url-pattern>/SetCookie</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>GetCookie</servlet-name>
+		<url-pattern>/GetCookie</url-pattern>
 	</servlet-mapping>
 	<error-page>
         <exception-type>java.lang.Exception</exception-type>

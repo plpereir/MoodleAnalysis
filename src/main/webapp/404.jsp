@@ -14,7 +14,7 @@
 		</div>
 		<hr>
 	</div>
-	</div>
+
 	<!-- /.container --> <%@include file="footer.jsp"%>
 	<!-- footer start --> <!-- footer end --> </main>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
