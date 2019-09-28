@@ -11,10 +11,10 @@
 	<!--End Menu Bar-->
 
 	<!-- Page Content -->
-	<main role="main" class="container">
-	<div class="jumbotron" style="background-color: #ffffff;">
+	<main role="main" class="container" >
+	<div class="jumbotron" style="background-color: #ffffff;" id="idTitle">
 		<h5 class="mt-4">Moodle Analytics</h5>
-		<div>
+		<div ">
 			<%out.println(prop.getProperty("homeTitle"));%>
 			<br>
 			<br>
@@ -75,106 +75,107 @@
 									<p>
 									<div class="form-check form-check-inline">
 										<input class="form-check-input" type="radio" name="modules"
-											id="inlineRadio1" value="mdl_analytics_models"> <label
+											id="inlineRadio1" value="mdl_analytics_models,analytics"> <label
 											class="form-check-label" for="inlineRadio1"><%out.println(strArray[0]);%></label>
 									</div>
 
 									<div class="form-check form-check-inline">
 										<input class="form-check-input" checked="true" type="radio"
-											name="modules" id="inlineRadio2" value="mdl_assign">
+											name="modules" id="inlineRadio2" value="mdl_assign,assign">
 										<label class="form-check-label" for="inlineRadio2"><%out.println(strArray[1]);%></label>
 									</div>
 
 									<div class="form-check form-check-inline">
 										<input class="form-check-input" type="radio" name="modules"
-											id="inlineRadio3" value="mdl_granding_definitions"> <label
+											id="inlineRadio3" value="mdl_granding_definitions,advanced_grading"> <label
 											class="form-check-label" for="inlineRadio3"><%out.println(strArray[2]);%></label>
 									</div>
 
 
 									<div class="form-check form-check-inline">
 										<input class="form-check-input" type="radio" name="modules"
-											id="inlineRadio4" value="mdl_badge"> <label
+											id="inlineRadio4" value="mdl_badge,badge"> <label
 											class="form-check-label" for="inlineRadio4"><%out.println(strArray[3]);%></label>
 									</div>
 
 									<div class="form-check form-check-inline">
 										<input class="form-check-input" type="radio" name="modules"
-											id="inlineRadio5" value="mdl_course"> <label
+											id="inlineRadio5" value="mdl_course,course"> <label
 											class="form-check-label" for="inlineRadio5"><%out.println(strArray[4]);%></label>
 									</div>
 
 									<div class="form-check form-check-inline">
 										<input class="form-check-input" type="radio" name="modules"
-											id="inlineRadio6" value="mdl_competency"> <label
+											id="inlineRadio6" value="mdl_competency,competency"> <label
 											class="form-check-label" for="inlineRadio6"><%out.println(strArray[5]);%></label>
 									</div>
 
 									<div class="form-check form-check-inline">
 										<input class="form-check-input" type="radio" name="modules"
-											id="inlineRadio7" value="mdl_forum"> <label
+											id="inlineRadio7" value="mdl_forum,forum"> <label
 											class="form-check-label" for="inlineRadio7"><%out.println(strArray[6]);%></label>
 									</div>
 
 									<div class="form-check form-check-inline">
 										<input class="form-check-input" type="radio" name="modules"
-											id="inlineRadio8" value="mdl_grade_items"> <label
+											id="inlineRadio8" value="mdl_grade_items,grading"> <label
 											class="form-check-label" for="inlineRadio8"><%out.println(strArray[7]);%></label>
 									</div>
 
 									<div class="form-check form-check-inline">
 										<input class="form-check-input" type="radio" name="modules"
-											id="inlineRadio9" value="mdl_lesson"> <label
+											id="inlineRadio9" value="mdl_lesson,lesson"> <label
 											class="form-check-label" for="inlineRadio9"><%out.println(strArray[8]);%></label>
 									</div>
 
 									<div class="form-check form-check-inline">
 										<input class="form-check-input" type="radio" name="modules"
-											id="inlineRadio10" value="mdl_user"> <label
+											id="inlineRadio10" value="mdl_user,users_and_profiles"> <label
 											class="form-check-label" for="inlineRadio10"><%out.println(strArray[9]);%></label>
 									</div>
 
 									<div class="form-check form-check-inline">
 										<input class="form-check-input" type="radio" name="modules"
-											id="inlineRadio11" value="mdl_question"> <label
+											id="inlineRadio11" value="mdl_question,question"> <label
 											class="form-check-label" for="inlineRadio11"><%out.println(strArray[10]);%></label>
 									</div>
 
 									<div class="form-check form-check-inline">
 										<input class="form-check-input" type="radio" name="modules"
-											id="inlineRadio12" value="mdl_role"> <label
+											id="inlineRadio12" value="mdl_role,roles"> <label
 											class="form-check-label" for="inlineRadio12"><%out.println(strArray[11]);%></label>
 									</div>
 
 									<div class="form-check form-check-inline">
 										<input class="form-check-input" type="radio" name="modules"
-											id="inlineRadio13" value="mdl_quiz"> <label
+											id="inlineRadio13" value="mdl_quiz,quiz"> <label
 											class="form-check-label" for="inlineRadio13"><%out.println(strArray[12]);%></label>
 									</div>
 
 									<div class="form-check form-check-inline">
 										<input class="form-check-input" type="radio" name="modules"
-											id="inlineRadio14" value="mdl_scorm"> <label
+											id="inlineRadio14" value="mdl_scorm,scorm"> <label
 											class="form-check-label" for="inlineRadio14"><%out.println(strArray[13]);%></label>
 									</div>
 
 									<div class="form-check form-check-inline">
 										<input class="form-check-input" type="radio" name="modules"
-											id="inlineRadio15" value="mdl_survey"> <label
+											id="inlineRadio15" value="mdl_survey,survey"> <label
 											class="form-check-label" for="inlineRadio15"><%out.println(strArray[14]);%></label>
 									</div>
 
 									<div class="form-check form-check-inline">
 										<input class="form-check-input" type="radio" name="modules"
-											id="inlineRadio16" value="mdl_wiki"> <label
+											id="inlineRadio16" value="mdl_wiki|wiki"> <label
 											class="form-check-label" for="inlineRadio16"><%out.println(strArray[15]);%></label>
 									</div>
 
 									<div class="form-check form-check-inline">
 										<input class="form-check-input" type="radio" name="modules"
-											id="inlineRadio17" value="mdl_workshop"> <label
+											id="inlineRadio17" value="mdl_workshop,workshop"> <label
 											class="form-check-label" for="inlineRadio17"><%out.println(strArray[16]);%></label>
 									</div>
+									<br><br>
 									<input class="btn btn-primary" role="button" type="submit"
 										name="Submit2"
 										value="<%out.println(prop.getProperty("homeDataMiningButton"));%>"

@@ -1,5 +1,6 @@
 <!-- page start -->
 <%@include file="library.jsp"%>
+<%@include file="properties.jsp"%>
 <body>
 	<!-- Start Menu Bar-->
 	<%@include file="header.jsp"%>

@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,7 +53,61 @@ public class DataMining extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String table = request.getParameter("modules");
+		
+		//set cookies variables
+		Cookie cookie = null;
+		Cookie[] cookies = null;
+
+		/*
+		English = false;
+		Portuguese = true;
+		*/
+		Boolean setLang = false;
+		// Get an array of Cookies associated with the this domain
+		cookies = request.getCookies();
+
+		if (request.getParameter("lg") != null) {
+			if (request.getParameter("lg").compareTo("PT") == 0) {
+				setLang = true;
+			}
+			// Create cookies for first and last names.      
+			Cookie newcookie = new Cookie("moodleAnalyticsLanguage", request.getParameter("lg"));
+
+			// Set expiry date after 24 Hrs for both the cookies.
+			newcookie.setMaxAge(60 * 60 * 24);
+
+			// Add both the cookies in the response header.
+			response.addCookie(newcookie);
+
+		} else {
+			if (cookies != null) {
+				for (int i = 0; i < cookies.length; i++) {
+					cookie = cookies[i];
+					if (cookie.getName().compareTo("moodleAnalyticsLanguage") == 0) {
+						if (cookie.getValue().compareTo("PT") == 0) {
+							setLang = true;
+						}
+					}
+				}
+			}
+		}
+		//check get parameter
+		String tmpLg = "";
+		if (setLang) {
+			//read file type config
+			tmpLg = "/WEB-INF/properties/PTlang.properties";
+		} else {
+			tmpLg = "/WEB-INF/properties/ENlang.properties";
+		}
+		//set properties, and load properties
+		InputStream inLg = getServletContext().getResourceAsStream(tmpLg);
+		Properties propLg = new Properties();
+		propLg.load(inLg);
+		
+		
+		String strArray[] = request.getParameter("modules").toString().split(",");
+		String table = strArray[0];
+		String report = propLg.getProperty(strArray[1]);
 		boolean success = (new File(TMP_DIR)).mkdirs();
 		InputStream in = getServletContext().getResourceAsStream("/WEB-INF/properties/config.properties");
 
@@ -83,7 +138,8 @@ public class DataMining extends HttpServlet {
 			
 			ML.Apriori(TMP_DIR,table);
 			ML.EM(TMP_DIR,table);
-			request.setAttribute("module",table);
+			request.setAttribute("module",report);
+			request.setAttribute("table",strArray[0]);
 			request.setAttribute("pathfile",TMP_DIR);
 			} catch (Exception e) {
 				request.setAttribute("apriori", e.toString());

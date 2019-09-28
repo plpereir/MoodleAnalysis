@@ -52,6 +52,5 @@
 		InputStream in = getServletContext().getResourceAsStream(tmp);
 		Properties prop = new Properties();
 		prop.load(in);
-		String strfooter[] = prop.getProperty("footer").split(",");
 
 	%>

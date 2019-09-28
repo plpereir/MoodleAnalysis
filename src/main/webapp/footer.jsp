@@ -1,6 +1,59 @@
 <%@ page isELIgnored="false"%>
+<%@ page language="java" import="java.util.Properties"%>
+<%@ page language="java" import="java.io.InputStream"%>
 
 <%
+//set cookies variables
+Cookie cookief = null;
+Cookie[] cookiesf = null;
+
+/*
+English = false;
+Portuguese = true;
+*/
+Boolean setLangf = false;
+// Get an array of Cookies associated with the this domain
+cookiesf = request.getCookies();
+
+if (request.getParameter("lg") != null) {
+	if (request.getParameter("lg").compareTo("PT") == 0) {
+		setLangf = true;
+	}
+	// Create cookies for first and last names.      
+	Cookie newcookief = new Cookie("moodleAnalyticsLanguage", request.getParameter("lg"));
+
+	// Set expiry date after 24 Hrs for both the cookies.
+	newcookief.setMaxAge(60 * 60 * 24);
+
+	// Add both the cookies in the response header.
+	response.addCookie(newcookief);
+
+} else {
+	if (cookiesf != null) {
+		for (int i = 0; i < cookiesf.length; i++) {
+			cookief = cookiesf[i];
+
+			if (cookief.getName().compareTo("moodleAnalyticsLanguage") == 0) {
+				if (cookief.getValue().compareTo("PT") == 0) {
+					setLangf = true;
+				}
+			}
+		}
+	}
+}
+//check get parameter
+String tmpf = "";
+if (setLangf) {
+	//read file type config
+	tmpf = "/WEB-INF/properties/PTlang.properties";
+} else {
+	tmpf = "/WEB-INF/properties/ENlang.properties";
+}
+//set properties, and load properties
+InputStream inf = getServletContext().getResourceAsStream(tmpf);
+Properties propf = new Properties();
+propf.load(inf);
+String strfooter[] = propf.getProperty("footer").split(",");
 %>
 <div class="container">
 	<footer class="pt-4 my-md-5 pt-md-5 border-top">

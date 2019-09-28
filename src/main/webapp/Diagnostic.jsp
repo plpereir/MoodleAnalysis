@@ -26,7 +26,7 @@
                   label: <%out.println(prop.getProperty("label"));%>,
                   backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
                   borderColor: window.chartColors.blue,
-                  data:${message1}
+                  data: ${message1}
                 }]
               };
               window.onload = function() {

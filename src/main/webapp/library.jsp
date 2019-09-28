@@ -31,6 +31,11 @@ canvas {
     max-height: calc(100% - 120px);
     overflow-y: scroll;
 }
+@media (max-width: 800px) {
+  #idTitle {
+   margin-top: 20%;
+  }
+}
 </style>
 
 <!-- Favicons -->
